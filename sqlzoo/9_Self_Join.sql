@@ -17,14 +17,14 @@ name	|CHAR(30)	|The name of an area served by at least one bus
 Table: route
 A route is the path through town taken by a bus.
 
-Field	|Type		|Notes
-num		|CHAR(5)	|The number of the bus - as it appears on the front of the vehicle. 
-						Oddly these numbers often include letters
-company	|CHAR(3)	|Several bus companies operate in Edinburgh. 
-						The main one is Lothian Region Transport - LRT
-pos		|INTEGER	|This indicates the order of the stop within the route. 
-						Some routes may revisit a stop. Most buses go in both directions.
-stop	|INTEGER	|This references the stops table
+Field	   |Type		|Notes
+num		   |CHAR(5)	|The number of the bus - as it appears on the front of the vehicle. 
+						        Oddly these numbers often include letters
+company  |CHAR(3)	|Several bus companies operate in Edinburgh. 
+						       The main one is Lothian Region Transport - LRT
+pos		   |INTEGER	|This indicates the order of the stop within the route. 
+						        Some routes may revisit a stop. Most buses go in both directions.
+stop	   |INTEGER	|This references the stops table (id)
 
 As different companies use numbers arbitrarily the num and the company 
 are both required to identify a route.
@@ -72,10 +72,8 @@ having count(*) >= 2
 
 
 ----------- Q5 -----------
-/*Execute the self join shown and observe that b.stop gives all the places you 
-can get to from Craiglockhart, 
-without changing routes. Change the query so that it shows the services from 
-Craiglockhart to London Road.*/
+/*shows the services from 
+Craiglockhart to London Road without changing routes.*/
 SELECT a.company, a.num, a.stop, b.stop
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
@@ -87,8 +85,7 @@ WHERE a.stop=53 and b.stop=149
 ----------- Q6 -----------
 /*The query shown is similar to the previous one, however by joining two copies of the stops table 
 we can refer to stops by name rather than by number. Change the query so that the services between 
-'Craiglockhart' and 'London Road' are shown. If you are tired of these places try 'Fairmilehead' 
-against 'Tollcross'*/
+'Craiglockhart' and 'London Road' are shown. */
 SELECT a.company, a.num, stopa.name, stopb.name
 FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)

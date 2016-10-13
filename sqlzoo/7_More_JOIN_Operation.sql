@@ -19,7 +19,7 @@ gross		|INTEGER	|How much the movie made at the box office.
 
 Example: movie
 id		|title					|yr	    |director	|budget		|gross
-10003	|"Crocodile" Dundee II	|1988	|38			|15800000	239606210
+10003	|"Crocodile" Dundee II	|1988	|38			|15800000	|239606210
 10004	|'Til There Was You		|1997	|49			|10000000	
 
 
@@ -199,7 +199,7 @@ select M.title, count(C.actorid)
 from movie M
 inner join casting C on M.id=C.movieid 
 where M.yr = 1978
-group by M.id,M.title -- order by two, select only need to include one
+group by M.id,M.title -- group by two, select only need to include one
 order by count(C.actorid) desc
 
 

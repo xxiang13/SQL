@@ -40,7 +40,7 @@ select gdp/population from world
 where names = 'United Kingdom'
 
 -- greater than UK's
-gdp/population > (select population from world where name='United Kingdom')
+gdp/population > (select gdp/population from world where name='United Kingdom')
 
 --- Final Code ---
 select name from world
@@ -126,17 +126,23 @@ where gdp > all (select gdp from world
 /*Find the largest country (by area) in each continent, 
 show the continent, the name and the area:*/
 
--- get largest area of each continent
+-- use correlated subquery to get largest area of the current continent
 select max(area) from world
-group by continent
+where continent = W.continent
 
 
 -- get countries having largest area of each continent
 
 select continent,name,area
-from world
-where area in (select max(area) from world
-			   group by continent)
+from world W
+where area = (select max(area) from world 
+			  where continent = W.continent)
+
+-- 2nd approach
+select W.continent, W.name, W.area
+from world W
+where area >= (select area from world 
+			  where continent = W.continent)
 
 
 
@@ -180,7 +186,7 @@ from world
 where continent not in (select distinct continent from world
 					 where population > 25000000)
 
---- Solution 3 ---
+--- Solution 2 ---
 SELECT name, continent, population FROM world x
 	WHERE 25000000 >= ALL
 		(SELECT population FROM world y

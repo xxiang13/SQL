@@ -109,23 +109,19 @@ inner join Highschooler H2 on F2.ID2 = H2.ID
 -------- Q5 --------
 /*Find the name and grade of the student(s) with the greatest number of friends. */
 
--- find largest number of friends of each student
+-- find number of friends of each student
 select count(ID1) as num_friend
 from Friend
 group by ID1
-order by num_friend desc
-limit 1 -- choose largest number
 
 -- get students who have max number of friends
 select H.name, H.grade
 from Friend F
 inner join Highschooler H on F.ID1 = H.ID
 group by ID1
-having count(*) = (select count(ID1) as num_friend
-				   from Friend
-    			   group by ID1
-				   order by num_friend desc
-	    		   limit 1)
+having count(*) >= all (select count(ID1) as num_friend -- >= all() to get the maximum number
+				   		from Friend
+    			   		group by ID1)
 
 
 
